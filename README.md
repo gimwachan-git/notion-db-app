@@ -26,3 +26,4 @@ npm run dev
 ```
 
 Visit `http://localhost:3000` to view the list of database items.
+For a simple Radix UI dialog example, open `http://localhost:3000/radix`.
