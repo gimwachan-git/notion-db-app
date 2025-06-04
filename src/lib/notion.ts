@@ -1,7 +1,9 @@
 import { Client } from '@notionhq/client';
 
-const notion = new Client({ auth: process.env.NOTION_TOKEN });
-const databaseId = process.env.NOTION_DATABASE_ID as string;
+const notionToken = process.env.NOTION_TOKEN;
+const databaseId = process.env.NOTION_DATABASE_ID;
+
+export const notion = new Client({ auth: notionToken });
 
 export interface DatabaseItem {
   id: string;
@@ -14,14 +16,14 @@ export async function getDatabaseItems(): Promise<DatabaseItem[]> {
     return [];
   }
 
-  const response = await notion.databases.query({
+  const { results } = await notion.databases.query({
     database_id: databaseId,
   });
 
-  return response.results.map((page: any) => {
-    const titleProperty = page.properties.Name;
-    const title = Array.isArray(titleProperty.title)
-      ? titleProperty.title[0]?.plain_text || 'Untitled'
+  return results.map((page: any) => {
+    const name = page.properties?.Name;
+    const title = Array.isArray(name?.title) && name.title.length > 0
+      ? name.title[0].plain_text
       : 'Untitled';
 
     return {
