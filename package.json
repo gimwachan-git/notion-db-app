@@ -12,7 +12,8 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "@notionhq/client": "latest"
+    "@notionhq/client": "latest",
+    "@radix-ui/react-dialog": "latest"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
