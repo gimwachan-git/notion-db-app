@@ -1,8 +1,27 @@
-import { getDatabaseItems } from '@/lib/notion';
+'use client';
+import { useEffect, useState } from 'react';
 import { Table } from '@radix-ui/themes';
+import { DatabaseItem } from '@/lib/notion';
 
-export default async function HomePage() {
-  const items = await getDatabaseItems();
+export default function HomePage() {
+  const [items, setItems] = useState<DatabaseItem[]>([]);
+
+  useEffect(() => {
+    async function fetchItems() {
+      try {
+        const res = await fetch('/api/items');
+        if (res.ok) {
+          const data = await res.json();
+          setItems(data);
+        } else {
+          console.error('Failed to fetch items');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchItems();
+  }, []);
 
   return (
     <main>
